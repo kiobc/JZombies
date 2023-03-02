@@ -4,7 +4,7 @@ export default class Spawner{
         this.maxSpawn=3;
         this.create=create;
         this.spawns =[];
-        setInterval(()=> this.spawn().spawnIntervalo);
+        setInterval(() => this.spawn(), this.spawnIntervalo)
     }
     spawn(){
         if(this.spawns.length>=this.maxSpawn) return;

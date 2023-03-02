@@ -5,7 +5,7 @@ import Spawner from "./spawn.js";
 
 //import Matter from "matter-js";
 
-const canvasSize = 256;
+const canvasSize = 512;
 const canvas = document.getElementById("mycanvas");
 const app = new PIXI.Application({
   view: canvas,
