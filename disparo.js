@@ -4,7 +4,7 @@ export default class Disparo{
     constructor({app,player}){
         this.app=app;
         this.player=player;
-        this.vBala=4;
+        this.vBala=8;
         this.bala=[];
         this.rBala=8;
         this.maxBala=3;
@@ -15,7 +15,7 @@ export default class Disparo{
             bala.beginFill(0x0000ff,1);
             bala.drawCircle(0,0,this.rBala);
             bala.endFill();
-            let angle = this.player.rotation;
+            let angle = this.player.player.rotation;
             bala.velocidad= new Victor(Math.cos(angle),Math.sin(angle)).multiplyScalar(this.vBala);
             this.bala.push(bala);
             this.app.stage.addChild(bala);
@@ -29,6 +29,6 @@ export default class Disparo{
             }
         }
         update(){
-            this.bala.forEach(b=>b.position.set(b.position.x+1,b.position.y+1));
+            this.bala.forEach(b=>b.position.set(b.position.x+b.velocidad.x,b.position.y+b.velocidad.y));
         }
 }
