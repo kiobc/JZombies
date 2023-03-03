@@ -31,6 +31,13 @@ return;
      this.zombie.position.set(this.zombie.position.x + v.x, this.zombie.position.y+ v.y);
 }
 
+kill(){
+  this.app.stage.removeChild(this.zombie);
+}
+
+get position(){
+  return this.zombie.position;
+}
      pAparicionAl() {
         const canvasSize = this.app.renderer.view.width; // definir canvasSize
         let borde = Math.floor(Math.random()*4); // generar valor aleatorio para borde

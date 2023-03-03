@@ -25,4 +25,23 @@ app.ticker.add((delta)=>{
  
 player.update();
 zSpawn.spawns.forEach(zombie=>zombie.update());
+bTiro({bala:player.disparo.bala, 
+  zombies:zSpawn.spawns,
+  rbala:8,
+  rzombie:16});
 });
+
+ function bTiro({bala,zombies,rbala,rzombie}){
+  bala.forEach(bala=>{
+    zombies.forEach((zombie,index)=>{
+      let dx =zombie.position.x - bala.position.x;
+      let dy =zombie.position.y - bala.position.y;
+      let distancia = Math.sqrt(dx*dx+dy*dy);
+      if(distancia<rbala+rzombie)
+      {
+zombies.splice(index,1);
+zombie.kill();
+      }
+    })
+  })
+ }
