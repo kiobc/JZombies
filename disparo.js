@@ -15,7 +15,7 @@ export default class Disparo{
             bala.beginFill(0x0000ff,1);
             bala.drawCircle(0,0,this.rBala);
             bala.endFill();
-            let angle = this.player.player.rotation;
+            let angle = this.player.player.rotation - Math.PI/2;
             bala.velocidad= new Victor(Math.cos(angle),Math.sin(angle)).multiplyScalar(this.vBala);
             this.bala.push(bala);
             this.app.stage.addChild(bala);
