@@ -10,6 +10,18 @@ export default class Disparo{
         this.maxBala=3;
     }
         fuego(){
+            if(this.bala.length>=this.maxBala)
+            {
+
+                let b = this.bala.shift();
+                this.app.stage.removeChild(b);
+            }
+this.bala.forEach((b)=>this.app.stage.removeChild(b));
+            this.bala=this.bala.filter((b)=>
+                Math.abs(b.position.x)< this.app.screen.width && 
+                Math.abs(b.position.y)< this.app.screen.height);
+                this.bala.forEach((b)=>this.app.stage.addChild(b));
+
             const bala= new PIXI.Graphics();
             bala.position.set(this.player.position.x, this.player.position.y);
             bala.beginFill(0x0000ff,1);
@@ -19,6 +31,7 @@ export default class Disparo{
             bala.velocidad= new Victor(Math.cos(angle),Math.sin(angle)).multiplyScalar(this.vBala);
             this.bala.push(bala);
             this.app.stage.addChild(bala);
+            console.log(this.bala, this.app.stage.children.length);
         }
         set shoot(disparo){
             if(disparo){
