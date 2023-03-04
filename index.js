@@ -16,15 +16,19 @@ const app = new PIXI.Application({
 
 let player= new Player({app});
 
-let zSpawn=new Spawner({create: ()=> new Zombie({app,player})});
+let zSpawn=new Spawner({app,create: ()=> new Zombie({app,player})});
 
 
 
-
+let Inicio = crearEscena("Click para iniciar");
+let gameOver=crearEscena("Te mataron");
+app.juegoInicio=false;
 app.ticker.add((delta)=>{
- 
+  gameOver.visible=player.muerte;
+  Inicio.visible= !app.juegoInicio;
+ if(app.juegoInicio===false)return;
 player.update();
-zSpawn.spawns.forEach(zombie=>zombie.update());
+zSpawn.spawns.forEach((zombie)=>zombie.update());
 bTiro({bala:player.disparo.bala, 
   zombies:zSpawn.spawns,
   rbala:8,
@@ -45,3 +49,21 @@ zombie.kill();
     })
   })
  }
+
+ function crearEscena(sceneText){
+  const sceneContainer=new PIXI.Container();
+  const texto= new PIXI.Text(sceneText);
+  texto.x=app.screen.width/2;
+  texto.y=0;
+  texto.anchor.set(0.5,0);
+  sceneContainer.zIndex=1;
+  sceneContainer.addChild(texto);
+  app.stage.addChild(sceneContainer);
+  return sceneContainer;
+
+ }
+
+ function comenzarJuego(){
+  app.juegoInicio=true;
+ }
+ document.addEventListener("click",comenzarJuego);

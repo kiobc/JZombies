@@ -41,6 +41,7 @@ get width(){
     return this.player.width;
 }
     update(){
+        if(this.muerte)return;
         const mouse=this.app.renderer.plugins.interaction.mouse;
         const cursorPosicion= mouse.global;
         let angle= Math.atan2(
