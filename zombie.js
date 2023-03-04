@@ -16,14 +16,19 @@ this.zombie.endFill();
 app.stage.addChild(this.zombie);
     }
 
+ataquePlayer(){
+if(this.atacando)return;
+this.atacando=true;
+this.intervalo=setInterval(()=>this.player.ataque(),500)
+}
+
 update(){
     
      let e = new Victor(this.zombie.position.x, this.zombie.position.y);
      let s = new Victor(this.player.position.x,this.player.position.y);
      if(e.distance(s)<this.player.width/2)
 {
-let r = this.pAparicionAl();
-this.zombie.position.set(r.x, r.y);
+this.ataquePlayer();
 return;
 }
      let d= s.subtract(e);
@@ -33,6 +38,7 @@ return;
 
 kill(){
   this.app.stage.removeChild(this.zombie);
+ clearInterval( this.intervalo);
 }
 
 get position(){
