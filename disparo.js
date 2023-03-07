@@ -41,7 +41,7 @@ this.bala.forEach((b)=>this.app.stage.removeChild(b));
                 clearInterval(this.intervalo);
             }
         }
-        update(){
-            this.bala.forEach(b=>b.position.set(b.position.x+b.velocidad.x,b.position.y+b.velocidad.y));
+        update(delta){
+            this.bala.forEach(b=>b.position.set(b.position.x+b.velocidad.x * delta,b.position.y+b.velocidad.y* delta));
         }
 }

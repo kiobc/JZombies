@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import Zombie from "./zombie.js";
 import Player from "./player.js";
 import Spawner from "./spawn.js";
+import { zombies } from "./global.js";
 
 //import Matter from "matter-js";
 
@@ -14,8 +15,15 @@ const app = new PIXI.Application({
   backgroundColor: 0x5c812f,
 });
 
-let player= new Player({app});
+iniciarJuego();
 
+
+
+async function iniciarJuego(){
+  try{
+
+    await cargarAssets();
+    let player= new Player({app});
 let zSpawn=new Spawner({app,create: ()=> new Zombie({app,player})});
 
 
@@ -27,13 +35,19 @@ app.ticker.add((delta)=>{
   gameOver.visible=player.muerte;
   Inicio.visible= !app.juegoInicio;
  if(app.juegoInicio===false)return;
-player.update();
-zSpawn.spawns.forEach((zombie)=>zombie.update());
+player.update(delta);
+zSpawn.spawns.forEach((zombie)=>zombie.update(delta));
 bTiro({bala:player.disparo.bala, 
   zombies:zSpawn.spawns,
   rbala:8,
   rzombie:16});
 });
+  }
+  catch(error){
+console.log(error.message);
+console.log("Cargada fallida");
+  }
+}
 
  function bTiro({bala,zombies,rbala,rzombie}){
   bala.forEach(bala=>{
@@ -66,4 +80,16 @@ zombie.kill();
  function comenzarJuego(){
   app.juegoInicio=true;
  }
+
+async function cargarAssets(){
+  return new Promise((resolve,reject)=>{
+    zombies.forEach(z=>PIXI.Loader.shared.add(`assets/${z}.json`));
+PIXI.Loader.shared.add("assets/hero_male.json");
+PIXI.Loader.shared.add("bullet","assets/bullet.png");
+PIXI.Loader.shared.onComplete.add(resolve);
+PIXI.Loader.shared.onError.add(reject);
+PIXI.Loader.shared.load();
+  });
+}
+
  document.addEventListener("click",comenzarJuego);

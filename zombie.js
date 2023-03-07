@@ -22,7 +22,7 @@ this.atacando=true;
 this.intervalo=setInterval(()=>this.player.ataque(),500)
 }
 
-update(){
+update(delta){
     
      let e = new Victor(this.zombie.position.x, this.zombie.position.y);
      let s = new Victor(this.player.position.x,this.player.position.y);
@@ -32,7 +32,7 @@ this.ataquePlayer();
 return;
 }
      let d= s.subtract(e);
-     let v = d.normalize().multiplyScalar(this.velocidad);
+     let v = d.normalize().multiplyScalar(this.velocidad*delta);
      this.zombie.position.set(this.zombie.position.x + v.x, this.zombie.position.y+ v.y);
 }
 
