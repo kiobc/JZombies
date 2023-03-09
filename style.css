@@ -7,3 +7,11 @@
 body {
   font-family: sans-serif;
 }
+.comtainer{
+  display: flex;
+  justify-content: center;
+}
+canvas{
+  max-width: 100vw;
+  max-height: 100vh;
+}
