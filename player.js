@@ -36,7 +36,7 @@ this.app.stage.addChild(this.salud);
 }
 ataque(){
 this.vida -=1;
-this.salud.Width=(this.vida/this.maxSalud)*this.salud.initialWidth;
+this.salud.width=(this.vida/this.maxSalud)*this.salud.initialWidth;
 if(this.vida<=0){
    this.muerte=true; 
 }

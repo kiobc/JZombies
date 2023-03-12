@@ -1,18 +1,24 @@
 import * as PIXI from "pixi.js";
 import Victor from "victor";
+import{zombies} from"./global.js";
 export default class Zombie{
     constructor({app,player}){
 this.app=app;
 this.player=player;
 
-const radio = 16;
 this.velocidad=2;
-this.zombie = new PIXI.Graphics();
 let r = this.pAparicionAl();
+let zombineName = zombies[Math.floor(Math.random()*zombies.length)];
+this.velocidad=zombineName==="quickzee"?1:0.25;
+let sheet= PIXI.Loader.shared.resources[`assets/${zombineName}.json`].spritesheet;
+this.muerte=new PIXI.AnimatedSprite(sheet.animations["die"]);
+this.ataque=new PIXI.AnimatedSprite(sheet.animations["attack"]);
+this.zombie=new PIXI.AnimatedSprite(sheet.animations["walk"]);
+this.zombie.animationSpeed = zombineName==="quickzee"?0.2:0.1;
+this.zombie.play();
+this.zombie.anchor.set(0.5);
+
 this.zombie.position.set(r.x, r.y);
-this.zombie.beginFill(0xFF0000,1);
-this.zombie.drawCircle(0,0,radio);
-this.zombie.endFill();
 app.stage.addChild(this.zombie);
     }
 
