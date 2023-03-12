@@ -21,12 +21,11 @@ this.bala.forEach((b)=>this.app.stage.removeChild(b));
                 Math.abs(b.position.x)< this.app.screen.width && 
                 Math.abs(b.position.y)< this.app.screen.height);
                 this.bala.forEach((b)=>this.app.stage.addChild(b));
-
-            const bala= new PIXI.Graphics();
-            bala.position.set(this.player.position.x, this.player.position.y);
-            bala.beginFill(0x0000ff,1);
-            bala.drawCircle(0,0,this.rBala);
-            bala.endFill();
+                const bala = new PIXI.Sprite(PIXI.Loader.shared.resources["bullet"].texture);
+bala.anchor.set(0.5);
+bala.scale.set(0.2);
+ bala.position.set(this.player.position.x, this.player.position.y); 
+ bala.rotation= this.player.rotation;      
             let angle = this.player.rotation - Math.PI/2;
             bala.velocidad= new Victor(Math.cos(angle),Math.sin(angle)).multiplyScalar(this.vBala);
             this.bala.push(bala);
