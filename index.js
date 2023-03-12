@@ -3,7 +3,7 @@ import Zombie from "./zombie.js";
 import Player from "./player.js";
 import Spawner from "./spawn.js";
 import { zombies } from "./global.js";
-
+import Clima from "./clima.js";
 //import Matter from "matter-js";
 
 const canvasSize = 200;
@@ -25,6 +25,7 @@ async function iniciarJuego(){
   try{
 
     await cargarAssets();
+    app.clima = new Clima({app});
     let player= new Player({app});
 let zSpawn=new Spawner({app,create: ()=> new Zombie({app,player})});
 
@@ -88,6 +89,7 @@ async function cargarAssets(){
     zombies.forEach(z=>PIXI.Loader.shared.add(`assets/${z}.json`));
 PIXI.Loader.shared.add("assets/hero_male.json");
 PIXI.Loader.shared.add("bullet","assets/bullet.png");
+PIXI.Loader.shared.add("rain","assets/rain.png");
 PIXI.Loader.shared.onComplete.add(resolve);
 PIXI.Loader.shared.onError.add(reject);
 PIXI.Loader.shared.load();
