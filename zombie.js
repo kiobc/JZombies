@@ -25,7 +25,10 @@ app.stage.addChild(this.zombie);
 ataquePlayer(){
 if(this.atacando)return;
 this.atacando=true;
-this.intervalo=setInterval(()=>this.player.ataque(),500)
+this.intervalo=setInterval(()=>this.player.ataque(),500);
+this.zombie.textures=this.ataque.textures;
+this.zombie.animationSpeed=0.1;
+this.zombie.play();
 }
 
 update(delta){
@@ -39,11 +42,16 @@ return;
 }
      let d= s.subtract(e);
      let v = d.normalize().multiplyScalar(this.velocidad*delta);
+     this.zombie.scale.x=v.x<0?1:-1;
      this.zombie.position.set(this.zombie.position.x + v.x, this.zombie.position.y+ v.y);
 }
 
 kill(){
-  this.app.stage.removeChild(this.zombie);
+  // this.app.stage.removeChild(this.zombie);
+  this.zombie.textures=this.muerte.textures;
+this.zombie.loop=false;
+this.zombie.onComplete=()=>setTimeout(()=>this.app.stage.removeChild(this.zombie),30000);
+this.zombie.play();
  clearInterval( this.intervalo);
 }
 
