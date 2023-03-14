@@ -7,7 +7,7 @@ import Clima from "./clima.js";
 import GameState from "./juego-estado.js";
 //import Matter from "matter-js";
 
-const canvasSize = 200;
+const canvasSize = 400;
 const canvas = document.getElementById("mycanvas");
 const app = new PIXI.Application({
   view: canvas,
