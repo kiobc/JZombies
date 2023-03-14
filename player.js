@@ -34,6 +34,14 @@ this.salud.zIndex=1;
 this.app.stage.sortableChildren= true;
 this.app.stage.addChild(this.salud);
 }
+
+set scale(s){
+    this.player.scale.set(s);
+
+}
+get scale(){
+    return this.player.scale.x;
+}
 ataque(){
 this.vida -=1;
 this.salud.width=(this.vida/this.maxSalud)*this.salud.initialWidth;

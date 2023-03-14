@@ -2,8 +2,9 @@ import * as PIXI from "pixi.js";
 import Zombie from "./zombie.js";
 import Player from "./player.js";
 import Spawner from "./spawn.js";
-import { zombies } from "./global.js";
+import { textStyle,subTextStyle, zombies } from "./global.js";
 import Clima from "./clima.js";
+import GameState from "./juego-estado.js";
 //import Matter from "matter-js";
 
 const canvasSize = 200;
@@ -22,6 +23,7 @@ iniciarJuego();
 
 
 async function iniciarJuego(){
+  app.gameState=GameState.PREINTRO;
   try{
 
     await cargarAssets();
@@ -30,20 +32,38 @@ async function iniciarJuego(){
 let zSpawn=new Spawner({app,create: ()=> new Zombie({app,player})});
 
 
+let preIntro = crearEscena("BrayCalZombies","Click para Continuar");
+let Inicio = crearEscena("BrayCalZombies","Click para iniciar");
+let gameOver=crearEscena("BrayCalZombies","Te mataron");
 
-let Inicio = crearEscena("Click para iniciar");
-let gameOver=crearEscena("Te mataron");
-app.juegoInicio=false;
+
 app.ticker.add((delta)=>{
-  gameOver.visible=player.muerte;
-  Inicio.visible= !app.juegoInicio;
- if(app.juegoInicio===false)return;
-player.update(delta);
+  if(player.muerte) app.gameState=GameState.GAMEOVER;
+  preIntro.visible=app.gameState=== GameState.PREINTRO;
+  Inicio.visible= app.gameState=== GameState.START;
+  gameOver.visible=app.gameState=== GameState.GAMEOVER;
+  switch(app.gameState){
+    case GameState.PREINTRO:
+      player.scale=4;
+    break;
+    case GameState.INTRO:
+      player.scale-=0.01;
+      if(player.scale<=1) app.gameState = GameState.START;
+      break;
+    case GameState.RUNNING:
+      player.update(delta);
 zSpawn.spawns.forEach((zombie)=>zombie.update(delta));
 bTiro({bala:player.disparo.bala, 
   zombies:zSpawn.spawns,
   rbala:8,
   rzombie:16});
+      break;
+    default:
+      break;
+  }
+  
+
+
 });
   }
   catch(error){
@@ -67,23 +87,30 @@ zombie.kill();
   })
  }
 
- function crearEscena(sceneText){
+ function crearEscena(sceneText,sceneSubText){
   const sceneContainer=new PIXI.Container();
-  const texto= new PIXI.Text(sceneText);
+  const texto= new PIXI.Text(sceneText, new PIXI.TextStyle(textStyle));
   texto.x=app.screen.width/2;
   texto.y=0;
   texto.anchor.set(0.5,0);
+
+  const subtexto= new PIXI.Text(sceneSubText, new PIXI.TextStyle(subTextStyle));
+  subtexto.x=app.screen.width/2;
+  subtexto.y=50;
+  subtexto.anchor.set(0.5,0);
+
   sceneContainer.zIndex=1;
   sceneContainer.addChild(texto);
+  sceneContainer.addChild(subtexto);
   app.stage.addChild(sceneContainer);
   return sceneContainer;
 
  }
 
- function comenzarJuego(){
-  app.juegoInicio=true;
-  app.clima.habSonido();
- }
+//  function comenzarJuego(){
+//   app.juegoInicio=true;
+//   app.clima.habSonido();
+//  }
 
 async function cargarAssets(){
   return new Promise((resolve,reject)=>{
@@ -96,5 +123,20 @@ PIXI.Loader.shared.onError.add(reject);
 PIXI.Loader.shared.load();
   });
 }
+ function clickHandler(){
+  switch(app.gameState){
+    case GameState.PREINTRO:
+   app.gameState=   GameState.INTRO; 
+  //  music.play();
+break;
 
- document.addEventListener("click",comenzarJuego);
+case GameState.START:
+   app.gameState=   GameState.RUNNING; 
+  //  zombieHorda.play();
+break;
+
+default:
+  break;
+  }
+ }
+ document.addEventListener("click",clickHandler);

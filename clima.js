@@ -40,9 +40,9 @@ update();
         });
     }
     async flash(){
-        await new Promise((res=> setTimeout
+        await new Promise((res)=> setTimeout
             (res, this.lightningGap.min+
-                (this.lightningGap.max-this.lightningGap.min)*Math.random())));
+                (this.lightningGap.max-this.lightningGap.min)*Math.random()));
 
     this.app.stage.addChild(this.lightning);
     if(this.sound) this.tormenta.play();
