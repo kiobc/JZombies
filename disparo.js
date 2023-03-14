@@ -4,12 +4,15 @@ export default class Disparo{
     constructor({app,player}){
         this.app=app;
         this.player=player;
-        this.vBala=8;
+        this.vBala=4;
         this.bala=[];
         this.rBala=8;
         this.maxBala=3;
+        this.audio= new Audio("./assets/shoot.mp3");
     }
         fuego(){
+            this.audio.currentTime=0;
+            this.audio.play();
             if(this.bala.length>=this.maxBala)
             {
 

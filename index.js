@@ -17,6 +17,22 @@ const app = new PIXI.Application({
   resolution:2
 });
 PIXI.settings.SCALE_MODE=PIXI.SCALE_MODES.NEAREST;
+//Musica
+const musica=new Audio("./assets/HordeZee.mp3");
+musica.addEventListener("timeupdate",function(){
+  if(this.currentTime>this.duration-0.2){
+      this.currentTime=0;
+  }
+});
+//Sonido Zonbies
+const hordaZombie=new Audio("./assets/horde.mp3");
+hordaZombie.volume=0.7;
+hordaZombie.addEventListener("timeupdate",function(){
+  if(this.currentTime>this.duration-0.2){
+      this.currentTime=0;
+  }
+});
+
 
 iniciarJuego();
 
@@ -127,12 +143,13 @@ PIXI.Loader.shared.load();
   switch(app.gameState){
     case GameState.PREINTRO:
    app.gameState=   GameState.INTRO; 
-  //  music.play();
+musica.play();
+app.clima.habSonido();
 break;
 
 case GameState.START:
    app.gameState=   GameState.RUNNING; 
-  //  zombieHorda.play();
+  hordaZombie.play();
 break;
 
 default:
