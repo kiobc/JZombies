@@ -82,6 +82,7 @@ zombie.kill();
 
  function comenzarJuego(){
   app.juegoInicio=true;
+  app.clima.habSonido();
  }
 
 async function cargarAssets(){
